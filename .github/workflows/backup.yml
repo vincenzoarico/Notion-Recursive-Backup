@@ -1,0 +1,81 @@
+name: Notion Backup to Separate Repository
+
+on:
+  schedule:
+    # Runs daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  
+  # Allows manual trigger from Actions tab
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the CODE repository (this one)
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          path: code
+        
+      # Checkout the BACKUP repository (separate repo for data)
+      - name: Checkout backup repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.BACKUP_REPO_NAME }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          path: backup-repo
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: code/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: code
+        run: npm ci
+        
+      - name: Run Notion backup
+        working-directory: code
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_ROOT_PAGE_ID: ${{ secrets.NOTION_ROOT_PAGE_ID }}
+          # Override output directory to write to backup repo
+          BACKUP_OUTPUT_DIR: ../backup-repo
+        run: |
+          node src/backup.js
+        
+      - name: Commit and push to backup repository
+        working-directory: backup-repo
+        run: |
+          git config user.name "notion-backup-bot"
+          git config user.email "bot@notion-backup.local"
+          git add .
+          
+          # Check if there are changes to commit
+          if ! git diff --quiet --cached; then
+            git commit -m "🔄 Automated backup - $(date +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Backup committed and pushed successfully"
+          else
+            echo "ℹ️ No changes detected, skipping commit"
+          fi
+          
+      - name: Create backup summary
+        if: always()
+        run: |
+          echo "## Backup Summary 📊" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date**: $(date +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run**: #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Repository**: \`${{ secrets.BACKUP_REPO_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f backup-repo/INDEX.md ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Statistics" >> $GITHUB_STEP_SUMMARY
+            grep -A 5 "## Statistics" backup-repo/INDEX.md >> $GITHUB_STEP_SUMMARY || echo "Stats not available" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -1,0 +1,29 @@
+{
+  "name": "notion-recursive-backup",
+  "version": "1.0.0",
+  "description": "Automated recursive backup of Notion pages to Markdown using notion-to-md",
+  "main": "src/backup.js",
+  "scripts": {
+    "backup": "node src/backup.js",
+    "test": "node src/backup.js"
+  },
+  "keywords": [
+    "notion",
+    "backup",
+    "recursive"
+  ],
+  "author": "vincenzoarico",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@notionhq/client": "^2.3.0",
+    "notion-to-md": "^4.0.0-alpha.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vincenzoarico/notion-recursive-backup.git"
+  }
+}
