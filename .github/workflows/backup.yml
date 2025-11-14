@@ -76,6 +76,5 @@ jobs:
           
           if [ -f backup-repo/INDEX.md ]; then
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### Statistics" >> $GITHUB_STEP_SUMMARY
-            grep -A 5 "## Statistics" backup-repo/INDEX.md >> $GITHUB_STEP_SUMMARY || echo "Stats not available" >> $GITHUB_STEP_SUMMARY
+            grep -A 4 "## Statistics" backup-repo/INDEX.md >> $GITHUB_STEP_SUMMARY || echo "Stats not available" >> $GITHUB_STEP_SUMMARY
           fi
