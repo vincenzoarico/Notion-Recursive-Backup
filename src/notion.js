@@ -47,7 +47,7 @@ export async function getPageTitle(pageId) {
  * @param {string} pageId - Parent page ID
  * @returns {Promise<Array>} Array of child page objects
  */
-export async function getChildPages(pageId) {
+export async function getChildPages(pageId, pageIdTitle) {
   const children = [];
   let cursor = undefined;
   
