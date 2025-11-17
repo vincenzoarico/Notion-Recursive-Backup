@@ -59,10 +59,11 @@ export async function getChildPages(pageId, pageIdTitle) {
         start_cursor: cursor,
         page_size: 100
       });
+      log.debug(`Children list:\n${response}\n`);
       
       for (const block of response.results) {
         if (block.type === 'child_page') {
-          log.debug(`Retrivied child page ${block.child_page.title} of page ${pageIdTitle}`)
+          log.debug(`Retrivied child page ${block.child_page.title} of page ${pageIdTitle}`);
           children.push({
             id: block.id,
             title: block.child_page.title

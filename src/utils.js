@@ -28,9 +28,9 @@ export const stats = {
  * Logger utility
  */
 export const log = {
-  info: (msg) => console.log(`ℹ️  ${msg}`),
+  info: (msg) => console.log(`ℹ️ ${msg}`),
   success: (msg) => console.log(`✅ ${msg}`),
-  warn: (msg) => console.warn(`⚠️  ${msg}`),
+  warn: (msg) => console.warn(`⚠️ ${msg}`),
   error: (msg) => console.error(`❌ ${msg}`),
   debug: (msg) => {
     if (CONFIG.LOG_LEVEL === 'debug') console.log(`🔍 ${msg}`);
