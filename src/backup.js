@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { CONFIG, stats, log, ensureDir, generateIndex, printSummary } from './utils.js';
-import { processPageRecursively } from './notion.js';
+import { processWorkspaceRoot } from './notion.js';
 
 /**
  * Validate required environment variables
@@ -74,7 +74,7 @@ async function main() {
     
     // Start recursive backup
     log.info('Starting recursive page processing...\n');
-    await processPageRecursively(rootPageId);
+    await processWorkspaceRoot();
     
     // Generate index file
     log.info('Generating backup index...');
