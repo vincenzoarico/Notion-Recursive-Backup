@@ -192,8 +192,6 @@ export async function processWorkspaceRoot(){
       },
     });
     console.log(`---\n${response}---\n`);
-  });
-
   } catch (error) {
     console.error("Error during the search:", error.message);
   }
