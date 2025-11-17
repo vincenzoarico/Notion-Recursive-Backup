@@ -1,7 +1,7 @@
 {
   "name": "notion-recursive-backup",
   "version": "1.0.0",
-  "description": "Automated recursive backup of Notion pages to Markdown using notion-to-md",
+  "description": "Automated recursive backup of a Notion page to Markdown using notion-to-md",
   "main": "src/backup.js",
   "scripts": {
     "backup": "node src/backup.js",
