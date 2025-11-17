@@ -12,7 +12,7 @@ export const CONFIG = {
   CLEAN_OUTPUT: true, // Clean output directory before backup
   LOG_LEVEL: ['debug', 'info'].includes(process.env.LOG_LEVEL)
     ? process.env.LOG_LEVEL
-    : 'info' 
+    : 'debug' 
 };
 
 /**

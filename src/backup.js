@@ -77,7 +77,7 @@ async function main() {
     await processPageRecursively(rootPageId);
     
     // Generate index file
-    log.info('\nGenerating backup index...');
+    log.info('Generating backup index...');
     await generateIndex(rootPageId);
     
     // Print summary
