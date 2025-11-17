@@ -181,18 +181,3 @@ export async function processPageRecursively(pageId, parentPath = CONFIG.OUTPUT_
     stats.errors++;
   }
 }
-
-export async function processWorkspaceRoot(){
-  log.info("Searching all workspace pages...");
-  try {
-    const response = await notion.search({
-      filter: {
-        value: 'page',
-        property: 'object'
-      },
-    });
-    log.debug(`---\n${JSON.stringify(response, null, 2)}---\n`);
-  } catch (error) {
-    log.error("Error during the search:", error.message);
-  }
-}
