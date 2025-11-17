@@ -59,7 +59,7 @@ export async function getChildPages(pageId, pageIdTitle) {
         start_cursor: cursor,
         page_size: 100
       });
-      log.debug(`Children list:\n${response}\n`);
+      log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
       
       for (const block of response.results) {
         if (block.type === 'child_page') {
@@ -183,7 +183,7 @@ export async function processPageRecursively(pageId, parentPath = CONFIG.OUTPUT_
 }
 
 export async function processWorkspaceRoot(){
-  console.log("Searching all workspace pages...");
+  log.info("Searching all workspace pages...");
   try {
     const response = await notion.search({
       filter: {
@@ -191,8 +191,8 @@ export async function processWorkspaceRoot(){
         property: 'object'
       },
     });
-    console.log(`---\n${response}---\n`);
+    log.debug(`---\n${JSON.stringify(response, null, 2)}---\n`);
   } catch (error) {
-    console.error("Error during the search:", error.message);
+    log.error("Error during the search:", error.message);
   }
 }
