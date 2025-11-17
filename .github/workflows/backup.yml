@@ -43,16 +43,25 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_ROOT_PAGE_ID: ${{ secrets.NOTION_ROOT_PAGE_ID }}
-          # Override output directory to write to backup repo
-          BACKUP_OUTPUT_DIR: ../backup-repo
+          BACKUP_OUTPUT_DIR: ../notion-output
         run: |
+          mkdir -p ../notion-output
           node src/backup.js
-        
+
+      - name: Prepare repository and copy backup files
+        working-directory: backup-repo
+        run: |
+          echo "Cleaning old backup files..."
+          ls -A1 | grep -v ".git" | xargs -r rm -rf
+          echo "Copying new backup files..."
+          cp -a ../notion-output/. .
+          rm -rf ../notion-output
+
       - name: Commit and push to backup repository
         working-directory: backup-repo
         run: |
           git config user.name "notion-backup-bot"
-          git config user.email "bot@notion-backup.local"
+          git config user.email "bot@users.noreply.github.com"
           git add .
           
           # Check if there are changes to commit
@@ -76,5 +85,6 @@ jobs:
           
           if [ -f backup-repo/INDEX.md ]; then
             echo "" >> $GITHUB_STEP_SUMMARY
-            grep -A 4 "## Statistics" backup-repo/INDEX.md >> $GITHUB_STEP_SUMMARY || echo "Stats not available" >> $GITHUB_STEP_SUMMARY
+            echo "### Backup statistics" >> $GITHUB_STEP_SUMMARY
+            grep -A 4 "## Statistics" backup-repo/INDEX.md >> $GITHUB_STEP_SUMMARY || echo "Stats not available in INDEX.md" >> $GITHUB_STEP_SUMMARY
           fi
