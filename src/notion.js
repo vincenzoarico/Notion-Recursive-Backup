@@ -62,6 +62,7 @@ export async function getChildPages(pageId) {
       
       for (const block of response.results) {
         if (block.type === 'child_page') {
+          log.debug(`Retrivied child page ${block.child_page.title} of page ${pageIdTitle}`)
           children.push({
             id: block.id,
             title: block.child_page.title
@@ -144,7 +145,7 @@ export async function processPageRecursively(pageId, parentPath = CONFIG.OUTPUT_
   try {
     const { title } = await processPage(pageId, parentPath, level);
     
-    const childPages = await getChildPages(pageId);
+    const childPages = await getChildPages(pageId, title);
     
     if (childPages.length > 0) {
       log.info(`${indent}Found ${childPages.length} child page(s)`);
