@@ -61,17 +61,19 @@ export async function getChildPages(blockId) {
       });
       log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
       
-      for (const block of response.results) {
-        if (block.type === 'child_page' || block.type === 'child_database') {
-          log.debug(`Retrivied child page ${block.child_page.title}`);
-          children.push({
-            id: block.id,
-            title: block.child_page.title
-          });
-        }
-        else if (block.has_children){
-          const childPages = await getChildPages(block.id);
-          children.push(...childPages)
+      if (response.results?.length) {
+        for (const block of response.results) {
+          if (block.type === 'child_page' || block.type === 'child_database') {
+            log.debug(`Retrivied child page ${block.child_page.title}`);
+            children.push({
+              id: block.id,
+              title: block.child_page.title
+            });
+          }
+          else if (block.has_children){
+            const childPages = await getChildPages(block.id);
+            children.push(...childPages)
+          }
         }
       }
       
