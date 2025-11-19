@@ -59,7 +59,7 @@ export async function getChildPages(blockId) {
         start_cursor: cursor,
         page_size: 100
       });
-      //log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
+      log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
       
       if (response.results?.length) {
         for (const block of response.results) {
