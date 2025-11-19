@@ -62,7 +62,7 @@ export async function getChildPages(blockId) {
       log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
       
       for (const block of response.results) {
-        if (block.type === 'child_page') {
+        if (block.type === 'child_page' || block.type = 'child_database') {
           log.debug(`Retrivied child page ${block.child_page.title}`);
           children.push({
             id: block.id,
@@ -94,7 +94,7 @@ export async function convertPageToMarkdown(pageId) {
   try {
     await sleep(CONFIG.API_DELAY);
     const page = await n2m.convert(pageId); 
-    return page;
+    return page.content;
   } catch (error) {
     log.error(`Failed to convert page ${pageId}: ${error.message}`);
     throw error;
