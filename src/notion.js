@@ -59,7 +59,7 @@ export async function getChildPages(blockId) {
         start_cursor: cursor,
         page_size: 100
       });
-      log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
+      //log.debug(`Children list:\n${JSON.stringify(response, null, 2)}\n`);
       
       if (response.results?.length) {
         for (const block of response.results) {
@@ -68,13 +68,6 @@ export async function getChildPages(blockId) {
             children.push({
               id: block.id,
               title: block.child_page.title
-            });
-          }
-          else if (block.type === 'child_database') {
-            log.debug(`Retrivied child database ${block.child_database.title}`);
-            children.push({
-              id: block.id,
-              title: block.child_database.title
             });
           }
           else if (block.has_children){
