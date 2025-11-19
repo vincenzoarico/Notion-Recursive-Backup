@@ -44,10 +44,10 @@ export async function getPageTitle(pageId) {
 
 /**
  * Get all child pages of a block with pagination support
- * @param {string} pageId - Parent page ID
+ * @param {string} blockId - Parent block ID
  * @returns {Promise<Array>} Array of child page objects
  */
-export async function getChildPages(pageId, pageIdTitle) {
+export async function getChildPages(blockId) {
   const children = [];
   let cursor = undefined;
   
@@ -55,7 +55,7 @@ export async function getChildPages(pageId, pageIdTitle) {
     do {
       await sleep(CONFIG.API_DELAY);
       const response = await notion.blocks.children.list({
-        block_id: pageId,
+        block_id: blockId,
         start_cursor: cursor,
         page_size: 100
       });
@@ -63,11 +63,15 @@ export async function getChildPages(pageId, pageIdTitle) {
       
       for (const block of response.results) {
         if (block.type === 'child_page') {
-          log.debug(`Retrivied child page ${block.child_page.title} of page ${pageIdTitle}`);
+          log.debug(`Retrivied child page ${block.child_page.title}`);
           children.push({
             id: block.id,
             title: block.child_page.title
           });
+        }
+        else if (block.has_children){
+          const childPages = await getChildPages(block.id);
+          children.push(...childPages)
         }
       }
       
@@ -76,7 +80,7 @@ export async function getChildPages(pageId, pageIdTitle) {
     
     return children;
   } catch (error) {
-    log.error(`Failed to retrieve child pages for ${pageId}: ${error.message}`);
+    log.error(`Failed to retrieve child pages for ${blockId}: ${error.message}`);
     return [];
   }
 }
@@ -146,7 +150,7 @@ export async function processPageRecursively(pageId, parentPath = CONFIG.OUTPUT_
   try {
     const { title } = await processPage(pageId, parentPath, level);
     
-    const childPages = await getChildPages(pageId, title);
+    const childPages = await getChildPages(pageId);
     
     if (childPages.length > 0) {
       log.info(`${indent}Found ${childPages.length} child page(s)`);
