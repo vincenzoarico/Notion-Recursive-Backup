@@ -86,10 +86,13 @@ export async function ensureDir(dirPath) {
  */
 export function generateFrontmatter(title, pageId, parentPath, level) {
   const now = new Date().toISOString();
+
+  const includeExported = false;
+
   return `---
 title: "${title.replace(/"/g, '\\"')}"
 notion_id: "${pageId}"
-exported_at: "${now}"
+${includeExported ? `exported_at: "${now}"` : ''}
 path: "${parentPath}"
 level: ${level}
 ---
@@ -105,13 +108,16 @@ export async function generateIndex(rootPageId) {
   const indexPath = path.join(CONFIG.OUTPUT_DIR, 'INDEX.md');
   const duration = ((Date.now() - stats.startTime) / 1000).toFixed(2);
   
+  const includeDate = false;
+  const includeDuration = false;
+
   const indexContent = `# Notion Backup Index
 
 ## Backup Information
 
-- **Date**: ${new Date().toISOString()}
+${includeDate ? `- **Date**: ${new Date().toISOString()}` : ''}
 - **Root Page ID**: \`${rootPageId}\`
-- **Duration**: ${duration}s
+${includeDuration ? `- **Duration**: ${duration}s` : ''}
 - **Processing Mode**: ${CONFIG.PARALLEL_PROCESSING ? 'Parallel' : 'Sequential'}
 
 ## Statistics
