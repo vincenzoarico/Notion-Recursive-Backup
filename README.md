@@ -4,7 +4,7 @@
 [![Notion API](https://img.shields.io/badge/Notion-API-black?logo=notion)](https://developers.notion.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An automated solution to backup your entire Notion workspace (or a specific page tree) into **Markdown** files.
+An automated solution to backup your entire Notion workspace into **Markdown** files, using a specific root page tree.
 
 This project is powered by the [notion-to-md](https://github.com/souvikinator/notion-to-md) library.
 
@@ -48,7 +48,7 @@ graph LR
 
 ---
 
-## 💡 Best Practices for Notion Structure
+## 💡 Required Practices for Notion Structure
 
 To ensure the backup captures your data correctly, organize your Notion workspace as follows:
 
