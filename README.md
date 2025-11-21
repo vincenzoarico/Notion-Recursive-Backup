@@ -4,7 +4,7 @@
 [![Notion API](https://img.shields.io/badge/Notion-API-black?logo=notion)](https://developers.notion.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An automated solution to backup your entire Notion workspace into **Markdown** files, using a specific root page tree.
+An automated solution to back up your entire Notion workspace into **Markdown** files, using a specific root page tree.
 
 This project is powered by the [notion-to-md](https://github.com/souvikinator/notion-to-md) library.
 
@@ -52,11 +52,11 @@ graph LR
 
 To ensure the backup captures your data correctly, organize your Notion workspace as follows:
 
-1. **Create a "root" page**: Do not try to use your entire Notion workspace. Instead, create a single page (e.g., named "Home"). Move all the other pages you want to backup inside this page. Use this specific page as the entry point for the script.
+1. **Create a "root" page**: Do not try to use your entire Notion workspace. Instead, create a single page (e.g., named "Home"). Move all the other pages you want to back up inside this page. Use this specific page as the entry point for the script.
 2. **Wrap databases in pages**: The script looks for pages to create the folder structure.
     - ❌ Don't: Create a database directly as a sub-page of your root page.
     - ✅ Do: Create a standard page first (e.g., "Project Finance"), and then place your database inside that page.
-3. **Prioritize database views**: If a database has multiple views (Table, Gallery, etc.), the script will primarily backup the properties visible in the first view. Ensure the view you want to see in the Markdown table (usually the "Table" view with all relevant columns) is set as the first/default view in Notion.
+3. **Prioritize database views**: If a database has multiple views (Table, Gallery, etc.), the script will primarily back up the properties visible in the first view. Ensure the view you want to see in the Markdown table (usually the "Table" view with all relevant columns) is set as the first/default view in Notion.
 
 ---
 
@@ -79,7 +79,7 @@ To ensure the backup captures your data correctly, organize your Notion workspac
 3. Check the three box in `Content Capabilities`: `Read content`, `Update content` and `Insert content`. Then, save.
 4. Copy the "Internal Integration Secret".
 5. Open **Settings/Connections** in your Notion workspace.
-6. Click `...` in your new integration > **Manage page access** > Select the top-level page of your Notion workspace you want to backup.
+6. Click `...` in your new integration > **Manage page access** > Select the top-level page of your Notion workspace you want to back up.
 7. Click `...` (top-right) in your selected page > **Copy link** > Copy the **Page ID** (UUID format) from the URL:
    - URL format: `https://www.notion.so/Page-Title-51c3d7eed8c04132a9c106432528b92d?source=copy_link`
    - ID: `51c3d7ee-d8c0-4132-a9c1-06432528b92d`
