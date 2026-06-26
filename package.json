@@ -16,7 +16,7 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@notionhq/client": "^2.3.0",
+    "@notionhq/client": "^5.22.0",
     "notion-to-md": "^4.0.0-alpha.7"
   },
   "engines": {

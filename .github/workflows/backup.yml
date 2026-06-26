@@ -8,9 +8,6 @@ on:
   # Allows manual trigger from Actions tab
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   backup:
     runs-on: ubuntu-latest
@@ -24,14 +21,14 @@ jobs:
         
       # Checkout the BACKUP repository (separate repo for data)
       - name: Checkout backup repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ secrets.BACKUP_REPO_NAME }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           path: backup-repo
         
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
           cache: 'npm'
